@@ -70,11 +70,26 @@ router.post('/', upload.single('image'), async (req, res, next) => {
     }
 });
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        const [news] = await db.getConnection().execute('SELECT * FROM posts WHERE id = ?', [req.params.id]);
+        const post = news[0];
+
+        if(!post) {
+            return  res.status(400).send({message: 'No such element'})
+        }
+
+        return res.send(post);
+    } catch (e) {
+        next(e);
+    }
+});
+
 router.delete('/:id', async (req, res, next) => {
     try {
-        await db.getConnection().execute('DELETE FROM items WHERE id = ?', [req.params.id]);
+        await db.getConnection().execute('DELETE FROM posts WHERE id = ?', [req.params.id]);
 
-        return res.send({message: 'Delete item by id: ' + req.params.id});
+        return res.send({message: 'Delete news by id: ' + req.params.id});
     } catch (e) {
         next(e);
     }

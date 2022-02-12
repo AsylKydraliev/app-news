@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../../shared/http.service';
 import { ActivatedRoute } from '@angular/router';
-import { News, NewsData } from '../../shared/news.model';
+import { News } from '../../shared/news.model';
 import { environment } from '../../../environments/environment';
 import { Comment } from '../../shared/comment.model';
 import { NgForm } from '@angular/forms';
@@ -35,11 +35,12 @@ export class PostComponent implements OnInit {
   onSubmit() {
     const comment: Comment = this.form.value;
     this.httpService.createComment(comment).subscribe(() => {
+      this.httpService.getComments();
       this.form.resetForm();
     });
   }
 
   onDelete(id: number) {
-
+    this.httpService.removeComment(id);
   }
 }

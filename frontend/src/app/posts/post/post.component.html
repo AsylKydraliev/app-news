@@ -1,14 +1,16 @@
 <h2>News</h2>
-<img
-  mat-card-sm-image
-  [src]="api + '/uploads/' + post.image"
-  [alt]="'Photo of ' + post.title"
->
-<h1>{{ post.title }}</h1>
-<p>{{ post.date }}</p>
-<p>{{ post.content }}</p>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <img
+    mat-card-md-image
+    [src]="api + '/uploads/' + post.image"
+    [alt]="'Photo of ' + post.title"
+  >
+  <h1>{{ post.title }}</h1>
+  <p>{{ post.date }}</p>
+  <p>{{ post.content }}</p>
+</div>
 
-<div>
+<div class="comments">
   <h2>Comments</h2>
   <mat-card *ngFor="let item of comments">
     <p>{{ item.author }}</p>
@@ -29,13 +31,8 @@
     <form (ngSubmit)="onSubmit()" #form="ngForm" fxLayout="column">
 
       <mat-form-field appearance="outline">
-        <mat-label>News id</mat-label>
-        <input name="post_id" required matInput ngModel/>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Title</mat-label>
-        <input name="title" required matInput ngModel/>
+        <mat-label>Author</mat-label>
+        <input name="author" matInput ngModel/>
       </mat-form-field>
 
       <mat-form-field appearance="outline">

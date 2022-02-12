@@ -88,13 +88,24 @@ export class HttpService{
       })
   }
 
-  createComment(comment: {}){
-    return this.http.post(environment.apiUrl + '/comments', comment);
+  createComment(comment: Comment){
+    const body = {
+      post_id: this.postId,
+      author: comment.author,
+      comment: comment.comment
+    }
+    return this.http.post(environment.apiUrl + '/comments', body);
   }
 
   removePost(id: number){
     this.http.delete(environment.apiUrl + '/news/' + id).subscribe(() => {
       this.getNews();
+    });
+  }
+
+  removeComment(id: number){
+    this.http.delete(environment.apiUrl + '/comments/' + id).subscribe(() => {
+      this.getComments();
     });
   }
 }

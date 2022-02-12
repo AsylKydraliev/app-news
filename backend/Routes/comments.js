@@ -21,14 +21,12 @@ router.post('/', async (req, res, next) => {
 
         const comment = {
             post_id: req.body.post_id,
-            author: req.body.author,
+            author: 'Anonymous',
             comment: req.body.comment,
         }
 
         if(req.body.author){
             comment.author = req.body.author;
-        }else{
-            comment.author = 'Anonymous';
         }
 
         let query = 'INSERT INTO comments (post_id, author, comment) VALUES (?, ?, ?)';

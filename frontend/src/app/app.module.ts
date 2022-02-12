@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PostsComponent } from './posts/posts.component';
-import { CommentsComponent } from './comments/comments.component';
 import { AddNewsComponent } from './add-news/add-news.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,14 +18,17 @@ import { LayoutComponent } from './ui/layout/layout.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { FileInputComponent } from './ui/file-input/file-input.component';
+import { PostComponent } from './posts/post/post.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostsComponent,
-    CommentsComponent,
     AddNewsComponent,
-    LayoutComponent
+    LayoutComponent,
+    FileInputComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

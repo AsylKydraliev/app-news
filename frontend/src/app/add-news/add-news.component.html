@@ -1,15 +1,16 @@
 <h1>New news</h1>
+
 <mat-card>
   <mat-card-content>
-    <form #form="ngForm" fxLayout="column">
+    <form (ngSubmit)="onSubmit()" #form="ngForm" fxLayout="column">
       <mat-form-field appearance="outline">
         <mat-label>Title</mat-label>
         <input name="title" required matInput ngModel/>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>Description</mat-label>
+        <mat-label>Content</mat-label>
         <textarea
-          name="description"
+          name="content"
           required
           ngModel
           matInput

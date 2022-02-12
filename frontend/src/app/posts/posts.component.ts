@@ -12,9 +12,9 @@ import { environment } from '../../environments/environment';
 export class PostsComponent implements OnInit, OnDestroy {
   news: News[] = [];
   newsSubscription!: Subscription;
-  api = `${environment.apiUrl}/news`;
+  api = environment.apiUrl;
 
-  constructor(private httpService: HttpService) { }
+  constructor(private httpService: HttpService) {}
 
   ngOnInit(): void {
     this.newsSubscription = this.httpService.newsChange.subscribe(news => {
@@ -26,5 +26,9 @@ export class PostsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy (){
     this.newsSubscription.unsubscribe();
+  }
+
+  onRead(id: number) {
+    this.httpService.getPost(id);
   }
 }

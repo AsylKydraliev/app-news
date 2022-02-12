@@ -1,10 +1,12 @@
 const express = require('express');
 const db = require('./mySqlDb');
 const news = require('./Routes/posts');
+const comments = require('./Routes/comments');
 
 const app = express();
 app.use(express.json());
 app.use('/news', news);
+app.use('/comments', comments);
 
 const port = 8000;
 

@@ -1,16 +1,18 @@
 <div>
-  <button mat-button color="primary" routerLink="/addNews">Add news</button>
+  <button mat-button color="primary" routerLink="/addNews">ADD NEWS</button>
 </div>
-<mat-card *ngFor="let post of news">
+<mat-card *ngFor="let post of news" fxLayout="row" fxLayoutAlign="start center" fxFill>
   <img
-    mat-card-sm-image
+    mat-card-md-image
     [src]="api + '/uploads/' + post.image"
     [alt]="'Photo of ' + post.title"
   >
-  <mat-card-title>{{ post.title }}</mat-card-title>
-  <mat-card-subtitle>{{ post.date }}</mat-card-subtitle>
-  <mat-card-actions>
-    <button mat-button color="primary" [routerLink]="['news/', post.id]">Read full post</button>
-    <button mat-button color="warn" (click)="onDelete(post.id)">Delete post</button>
-  </mat-card-actions>
+  <div class="content">
+    <mat-card-title>{{ post.title }}</mat-card-title>
+    <mat-card-subtitle>{{ post.date }}</mat-card-subtitle>
+    <mat-card-actions>
+      <button mat-button color="primary" [routerLink]="['news/', post.id]">Read full post</button>
+      <button mat-button color="warn" (click)="onDelete(post.id)">Delete post</button>
+    </mat-card-actions>
+  </div>
 </mat-card>

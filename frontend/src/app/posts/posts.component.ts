@@ -24,15 +24,15 @@ export class PostsComponent implements OnInit, OnDestroy {
     this.httpService.getNews();
   }
 
-  ngOnDestroy (){
-    this.newsSubscription.unsubscribe();
-  }
-
   onRead(id: number) {
     this.httpService.getPost(id);
   }
 
   onDelete(id: number) {
     this.httpService.removePost(id);
+  }
+
+  ngOnDestroy (){
+    this.newsSubscription.unsubscribe();
   }
 }

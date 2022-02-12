@@ -5,6 +5,7 @@ import { News } from '../../shared/news.model';
 import { environment } from '../../../environments/environment';
 import { Comment } from '../../shared/comment.model';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-post',
@@ -17,6 +18,7 @@ export class PostComponent implements OnInit {
   post!: News;
   comments: Comment[] = [];
   api = environment.apiUrl;
+  commentsSubscription!: Subscription;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {}
 
@@ -25,7 +27,7 @@ export class PostComponent implements OnInit {
       this.post = <News>data['post'];
     })
 
-    this.httpService.commentsChange.subscribe(comments => {
+    this.commentsSubscription = this.httpService.commentsChange.subscribe(comments => {
       this.comments = comments;
     })
 
@@ -42,5 +44,9 @@ export class PostComponent implements OnInit {
 
   onDelete(id: number) {
     this.httpService.removeComment(id);
+  }
+
+  ngOnDestroy(){
+    this.commentsSubscription.unsubscribe();
   }
 }

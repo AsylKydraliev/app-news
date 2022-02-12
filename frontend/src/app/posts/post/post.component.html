@@ -1,20 +1,23 @@
 <h2>News</h2>
-<div fxLayout="column" fxLayoutAlign="center center">
-  <img
-    mat-card-md-image
-    [src]="api + '/uploads/' + post.image"
-    [alt]="'Photo of ' + post.title"
-  >
-  <h1>{{ post.title }}</h1>
-  <p>{{ post.date }}</p>
-  <p>{{ post.content }}</p>
-</div>
+
+<mat-card>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <img
+      mat-card-md-image
+      [src]="api + '/uploads/' + post.image"
+      [alt]="'Photo of ' + post.title"
+    >
+    <h1>{{ post.title }}</h1>
+    <p class="opacity">{{ post.date }}</p>
+    <p>{{ post.content }}</p>
+  </div>
+</mat-card>
 
 <div class="comments">
   <h2>Comments</h2>
-  <mat-card *ngFor="let item of comments">
-    <p>{{ item.author }}</p>
-    <p>{{ item.comment }}</p>
+  <mat-card *ngFor="let item of comments" class="card" fxLayout="row" fxLayoutAlign="space-between flex-start" >
+    <span><strong>{{ item.author }}</strong></span>
+    <span>Wrote: <strong>{{ item.comment }}</strong></span>
     <button
       type="button"
       mat-raised-button

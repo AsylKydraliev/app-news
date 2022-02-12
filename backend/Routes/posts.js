@@ -17,3 +17,16 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage});
+
+router.get('/', async (req, res, next) => {
+    try{
+        let query = 'SELECT * FROM posts';
+        let [news] = await db.getConnection().execute(query);
+
+        return res.send(news);
+    }catch (e) {
+        next(e);
+    }
+})
+
+module.exports = router;

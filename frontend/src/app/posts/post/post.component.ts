@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../../shared/http.service';
 import { ActivatedRoute } from '@angular/router';
-import { News } from '../../shared/news.model';
+import { News, NewsData } from '../../shared/news.model';
+import { environment } from '../../../environments/environment';
+import { Comment } from '../../shared/comment.model';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-post',
@@ -9,19 +12,34 @@ import { News } from '../../shared/news.model';
   styleUrls: ['./post.component.sass']
 })
 export class PostComponent implements OnInit {
-  post: News | null = null;
-  title = '';
-  content = '';
-  image = '';
-  date = '';
+  @ViewChild('form') form!: NgForm;
+
+  post!: News;
+  comments: Comment[] = [];
+  api = environment.apiUrl;
 
   constructor(private httpService: HttpService, private route: ActivatedRoute) {}
 
   ngOnInit(){
     this.route.data.subscribe(data => {
-      this.post = <News | null>data['post'];
-      console.log(this.post)
+      this.post = <News>data['post'];
     })
+
+    this.httpService.commentsChange.subscribe(comments => {
+      this.comments = comments;
+    })
+
+    this.httpService.getComments();
   }
 
+  onSubmit() {
+    const comment: Comment = this.form.value;
+    this.httpService.createComment(comment).subscribe(() => {
+      this.form.resetForm();
+    });
+  }
+
+  onDelete(id: number) {
+
+  }
 }

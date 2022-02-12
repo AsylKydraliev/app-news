@@ -31,4 +31,8 @@ export class PostsComponent implements OnInit, OnDestroy {
   onRead(id: number) {
     this.httpService.getPost(id);
   }
+
+  onDelete(id: number) {
+    this.httpService.removePost(id);
+  }
 }

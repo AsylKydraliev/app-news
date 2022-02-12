@@ -1,1 +1,64 @@
-<h1></h1>
+<h2>News</h2>
+<img
+  mat-card-sm-image
+  [src]="api + '/uploads/' + post.image"
+  [alt]="'Photo of ' + post.title"
+>
+<h1>{{ post.title }}</h1>
+<p>{{ post.date }}</p>
+<p>{{ post.content }}</p>
+
+<div>
+  <h2>Comments</h2>
+  <mat-card *ngFor="let item of comments">
+    <p>{{ item.author }}</p>
+    <p>{{ item.comment }}</p>
+    <button
+      type="button"
+      mat-raised-button
+      color="warn"
+      (click)="onDelete(item.id)"
+    >Delete</button>
+  </mat-card>
+</div>
+
+<hr>
+<h3>Add Comment</h3>
+<mat-card>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()" #form="ngForm" fxLayout="column">
+
+      <mat-form-field appearance="outline">
+        <mat-label>News id</mat-label>
+        <input name="post_id" required matInput ngModel/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input name="title" required matInput ngModel/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Content</mat-label>
+        <textarea
+          name="comment"
+          required
+          ngModel
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="3"
+        ></textarea>
+      </mat-form-field>
+
+      <div>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="form.invalid"
+        >Send</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>

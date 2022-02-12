@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { News, NewsData } from './news.model';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Comment } from './comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,10 @@ import { Subject } from 'rxjs';
 
 export class HttpService{
   news: News[] = [];
+  comments: Comment[] = [];
   newsChange = new Subject<News[]>();
+  commentsChange = new Subject<Comment[]>();
+  postId!: number;
 
   constructor(private http: HttpClient) {}
 
@@ -37,6 +41,7 @@ export class HttpService{
   }
 
   getPost(id: number) {
+    this.postId = id;
     return this.http.get<News | null>(environment.apiUrl + '/news/' + id).pipe(
       map(result => {
         if(!result) return null;
@@ -61,5 +66,35 @@ export class HttpService{
     }
 
     return this.http.post(environment.apiUrl + '/news', formData);
+  }
+
+  getComments(){
+    this.http.get<Comment[]>(environment.apiUrl + '/comments?post_id=' + this.postId).pipe(
+      map(response => {
+        return response.map(comment => {
+          return new Comment(
+            comment.id,
+            comment.postId,
+            comment.author,
+            comment.comment
+          );
+        });
+      })
+    )
+      .subscribe(result => {
+        this.comments = [];
+        this.comments = result;
+        this.commentsChange.next(this.comments.slice());
+      })
+  }
+
+  createComment(comment: {}){
+    return this.http.post(environment.apiUrl + '/comments', comment);
+  }
+
+  removePost(id: number){
+    this.http.delete(environment.apiUrl + '/news/' + id).subscribe(() => {
+      this.getNews();
+    });
   }
 }

@@ -5,10 +5,9 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try{
-        const [comments] = await db.getConnection().execute('SELECT * FROM comments WHERE id = ?', [req.query.post_id]);
-        const comment = comments[0];
+        const [comments] = await db.getConnection().execute('SELECT * FROM comments WHERE post_id = ?', [req.query.post_id]);
 
-        return res.send(comment);
+        return res.send(comments);
     }catch (e) {
         next(e);
     }
@@ -22,12 +21,14 @@ router.post('/', async (req, res, next) => {
 
         const comment = {
             post_id: req.body.post_id,
-            author: 'Anonymous',
+            author: req.body.author,
             comment: req.body.comment,
         }
 
         if(req.body.author){
             comment.author = req.body.author;
+        }else{
+            comment.author = 'Anonymous';
         }
 
         let query = 'INSERT INTO comments (post_id, author, comment) VALUES (?, ?, ?)';

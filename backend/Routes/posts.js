@@ -27,6 +27,57 @@ router.get('/', async (req, res, next) => {
     }catch (e) {
         next(e);
     }
-})
+});
+
+router.post('/', upload.single('image'), async (req, res, next) => {
+    try {
+        if (!req.body.title || !req.body.content) {
+            return res.status(400).send({message: 'Title and news content are required!'});
+        }
+
+        const news = {
+            title: req.body.title,
+            content: req.body.content,
+            image: null,
+            date: new Date(),
+        }
+
+        if (req.file) {
+            news.image = req.file.filename;
+        }
+
+        let query = 'INSERT INTO posts (title, content, image, date) VALUES (?, ?, ?, ?)';
+
+        const [result] = await db.getConnection().execute(query, [
+            news.title,
+            news.content,
+            news.image,
+            news.date
+        ]);
+
+        const id = result.insertId;
+
+        const newNews = {
+            id: id,
+            content: news.content,
+            image: news.image,
+            date: news.date,
+        }
+
+        return res.send(newNews);
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        await db.getConnection().execute('DELETE FROM items WHERE id = ?', [req.params.id]);
+
+        return res.send({message: 'Delete item by id: ' + req.params.id});
+    } catch (e) {
+        next(e);
+    }
+});
 
 module.exports = router;
